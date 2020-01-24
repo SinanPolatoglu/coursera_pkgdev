@@ -1,0 +1,11 @@
+Package: courseraFARS
+Type: Package
+Title: Load, manipulate and visualize FARS data
+Version: 0.1.0
+Author: Sinan Polatoglu
+Maintainer: Sinan Polatoglu <sinan.polatoglu@outlook.com>
+Description: This package was developed as part of the 'Software Development
+    in R' specialization. Merely for education purposes.
+License: GPL
+Encoding: UTF-8
+LazyData: true
