@@ -1,10 +1,15 @@
+[![Build Status](https://travis-ci.com/SinanPolatoglu/coursera_pkgdev.svg?branch=master)](https://travis-ci.com/SinanPolatoglu/coursera_pkgdev)
 
+# courseraFARS
 
-# Coursera building R packages: peer assignment
+Package development assignment as part of the [Mastering Software Development in R](https://www.coursera.org/specializations/r) specialization on [coursera](coursera.org).
+
+---
+## Assignment
 
 The purpose of this assessment is for you to combine your skills of creating, writing, documenting, and testing an R package with releasing that package on GitHub. In this assessment you'll be taking the R files from Week 2's assessment about documentation and putting that file in an R package.
 
-## Instructions
+### Instructions
 
 For this assessment you must: 
 
@@ -13,7 +18,7 @@ For this assessment you must:
 3. set up the repository so that the package can be checked and built on Travis
 4. Once your package has built on Travis and the build is passing with no errors, warnings, or notes you should add your Travis badge to the README.md file of your package repository.
 
-## Review criteria
+### Review criteria
 
 For this assignment you'll submit a link to the GitHub repository which contains your package. This assessment will ask reviewers the following questions:
 
