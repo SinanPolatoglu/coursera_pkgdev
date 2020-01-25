@@ -8,6 +8,6 @@ Description: This package was developed as part of the 'Software Developmentin R
 License: GPL
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.6), dplyr,  magrittr,  maps,  readr, tidyr
+Depends: R (>= 3.6), rmarkdown, knitr, dplyr,  magrittr,  maps,  readr, tidyr
 VignetteBuilder: knitr
 RoxygenNote: 7.0.1
