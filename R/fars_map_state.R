@@ -4,19 +4,18 @@
 #' @param state.num a valid state identifier, coercible to an integer
 #' @param year a scalar, coercible to an integer
 #' @return \code{NULL}
-#' @details The plotted area is restricted to states with a longitude 
+#' @details The plotted area is restricted to states with a longitude
 #' > 900 and latitude > 90
-#' @examples 
-#' fars_map_state(01, 2013)
+#' @examples
 #' \dontrun{
-#' fars_map_state("stateName", 2013)
+#' fars_map_state(01, 2013)
 #' }
-#' @seealso 
+#' @seealso
 #'  \code{\link[dplyr]{filter}}
 #'  \code{\link[maps]{map}}
 #'  \code{\link[graphics]{points}}
 #' @rdname fars_map_state
-#' @export 
+#' @export
 #' @importFrom dplyr filter
 #' @importFrom maps map
 #' @importFrom graphics points
@@ -25,7 +24,7 @@ fars_map_state <- function(state.num, year) {
   filename <- make_filename(year)
   data <- fars_read(filename)
   state.num <- as.integer(state.num)
-  
+
   if(!(state.num %in% unique(data$STATE)))
     stop("invalid STATE number: ", state.num)
   data.sub <- dplyr::filter(data, STATE == state.num)
