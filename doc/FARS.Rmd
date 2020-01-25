@@ -1,0 +1,66 @@
+---
+title: "FARS"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{FARS}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+datfolder <- system.file("extdata", package = "courseraFARS")
+file.copy(
+  file.path(datfolder, dir(datfolder)),
+  file.path(getwd(), dir(datfolder))
+)
+```
+
+## *Read, summarise and visualize Fatality Analysis Reporting System data*
+This package comes with a limited number of very basic functions. To demonstrate the use of these, the package comes with raw csv files which can be accessed with the following command:
+```{r}
+datfolder <- system.file("extdata", package = "courseraFARS")
+dir(datfolder)
+```
+
+```{r}
+library(courseraFARS)
+```
+
+1. `fars_read` loads the csv data into a `tibble::tbl_df`
+
+```{r}
+(x <- fars_read(dir(datfolder)[1]))
+```
+
+
+2. `fars_read_years` loads multiple csv files into a list of tibbles with only the `MONTH` and `year` columns.
+
+```{r}
+(x <- fars_read_years(2013:2015))
+```
+
+3. `fars_summaize_years` returns tibble with counts for each month in the specified years
+```{r}
+(x <- fars_summarize_years(2013:2015))
+```
+
+
+4. `fars_map_state` can be used for plotting the geographical coordinates of fatal injuries within a year for the specified state. 
+
+```{r fig.align='center', fig.height=4, fig.width=5}
+fars_map_state(1, 2013)
+```
+
+
+```{r deletefiles, include=FALSE}
+file.remove(dir(datfolder))
+rm(datfolder)
+```
+
+
+

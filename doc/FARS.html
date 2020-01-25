@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>FARS</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">FARS</h1>
+
+
+
+<div id="read-summarise-and-visualize-fatality-analysis-reporting-system-data" class="section level2">
+<h2><em>Read, summarise and visualize Fatality Analysis Reporting System data</em></h2>
+<p>This package comes with a limited number of very basic functions. To demonstrate the use of these, the package comes with raw csv files which can be accessed with the following command:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">datfolder &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;courseraFARS&quot;</span>)
+<span class="kw">dir</span>(datfolder)
+<span class="co">#&gt; [1] &quot;accident_2013.csv.bz2&quot; &quot;accident_2014.csv.bz2&quot; &quot;accident_2015.csv.bz2&quot;</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(courseraFARS)
+<span class="co">#&gt; Loading required package: knitr</span>
+<span class="co">#&gt; Loading required package: rmarkdown</span>
+<span class="co">#&gt; Loading required package: dplyr</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'dplyr'</span>
+<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     filter, lag</span>
+<span class="co">#&gt; The following objects are masked from 'package:base':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     intersect, setdiff, setequal, union</span>
+<span class="co">#&gt; Loading required package: magrittr</span>
+<span class="co">#&gt; Loading required package: maps</span>
+<span class="co">#&gt; Loading required package: readr</span>
+<span class="co">#&gt; Loading required package: tidyr</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'tidyr'</span>
+<span class="co">#&gt; The following object is masked from 'package:magrittr':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     extract</span></code></pre></div>
+<ol style="list-style-type: decimal">
+<li><code>fars_read</code> loads the csv data into a <code>tibble::tbl_df</code></li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(x &lt;-<span class="st"> </span><span class="kw">fars_read</span>(<span class="kw">dir</span>(datfolder)[<span class="dv">1</span>]))
+<span class="co">#&gt; # A tibble: 30,202 x 50</span>
+<span class="co">#&gt;    STATE ST_CASE VE_TOTAL VE_FORMS PVH_INVL  PEDS PERNOTMVIT PERMVIT PERSONS</span>
+<span class="co">#&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt;  1     1   10001        1        1        0     0          0       8       8</span>
+<span class="co">#&gt;  2     1   10002        2        2        0     0          0       2       2</span>
+<span class="co">#&gt;  3     1   10003        1        1        0     0          0       1       1</span>
+<span class="co">#&gt;  4     1   10004        1        1        0     0          0       3       3</span>
+<span class="co">#&gt;  5     1   10005        2        2        0     0          0       3       3</span>
+<span class="co">#&gt;  6     1   10006        2        2        0     0          0       3       3</span>
+<span class="co">#&gt;  7     1   10007        1        1        0     0          0       1       1</span>
+<span class="co">#&gt;  8     1   10008        2        2        0     0          0       2       2</span>
+<span class="co">#&gt;  9     1   10009        1        1        0     0          0       1       1</span>
+<span class="co">#&gt; 10     1   10010        2        2        0     0          0       4       4</span>
+<span class="co">#&gt; # … with 30,192 more rows, and 41 more variables: COUNTY &lt;dbl&gt;, CITY &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   DAY &lt;dbl&gt;, MONTH &lt;dbl&gt;, YEAR &lt;dbl&gt;, DAY_WEEK &lt;dbl&gt;, HOUR &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   MINUTE &lt;dbl&gt;, NHS &lt;dbl&gt;, ROAD_FNC &lt;dbl&gt;, ROUTE &lt;dbl&gt;, TWAY_ID &lt;chr&gt;,</span>
+<span class="co">#&gt; #   TWAY_ID2 &lt;chr&gt;, MILEPT &lt;dbl&gt;, LATITUDE &lt;dbl&gt;, LONGITUD &lt;dbl&gt;, SP_JUR &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   HARM_EV &lt;dbl&gt;, MAN_COLL &lt;dbl&gt;, RELJCT1 &lt;dbl&gt;, RELJCT2 &lt;dbl&gt;, TYP_INT &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   WRK_ZONE &lt;dbl&gt;, REL_ROAD &lt;dbl&gt;, LGT_COND &lt;dbl&gt;, WEATHER1 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   WEATHER2 &lt;dbl&gt;, WEATHER &lt;dbl&gt;, SCH_BUS &lt;dbl&gt;, RAIL &lt;chr&gt;, NOT_HOUR &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   NOT_MIN &lt;dbl&gt;, ARR_HOUR &lt;dbl&gt;, ARR_MIN &lt;dbl&gt;, HOSP_HR &lt;dbl&gt;, HOSP_MN &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   CF1 &lt;dbl&gt;, CF2 &lt;dbl&gt;, CF3 &lt;dbl&gt;, FATALS &lt;dbl&gt;, DRUNK_DR &lt;dbl&gt;</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li><code>fars_read_years</code> loads multiple csv files into a list of tibbles with only the <code>MONTH</code> and <code>year</code> columns.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(x &lt;-<span class="st"> </span><span class="kw">fars_read_years</span>(<span class="dv">2013</span><span class="op">:</span><span class="dv">2015</span>))
+<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt; # A tibble: 30,202 x 2</span>
+<span class="co">#&gt;    MONTH  year</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;int&gt;</span>
+<span class="co">#&gt;  1     1  2013</span>
+<span class="co">#&gt;  2     1  2013</span>
+<span class="co">#&gt;  3     1  2013</span>
+<span class="co">#&gt;  4     1  2013</span>
+<span class="co">#&gt;  5     1  2013</span>
+<span class="co">#&gt;  6     1  2013</span>
+<span class="co">#&gt;  7     1  2013</span>
+<span class="co">#&gt;  8     1  2013</span>
+<span class="co">#&gt;  9     1  2013</span>
+<span class="co">#&gt; 10     1  2013</span>
+<span class="co">#&gt; # … with 30,192 more rows</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[2]]</span>
+<span class="co">#&gt; # A tibble: 30,056 x 2</span>
+<span class="co">#&gt;    MONTH  year</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;int&gt;</span>
+<span class="co">#&gt;  1     1  2014</span>
+<span class="co">#&gt;  2     1  2014</span>
+<span class="co">#&gt;  3     1  2014</span>
+<span class="co">#&gt;  4     1  2014</span>
+<span class="co">#&gt;  5     1  2014</span>
+<span class="co">#&gt;  6     1  2014</span>
+<span class="co">#&gt;  7     1  2014</span>
+<span class="co">#&gt;  8     1  2014</span>
+<span class="co">#&gt;  9     1  2014</span>
+<span class="co">#&gt; 10     1  2014</span>
+<span class="co">#&gt; # … with 30,046 more rows</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[3]]</span>
+<span class="co">#&gt; # A tibble: 32,166 x 2</span>
+<span class="co">#&gt;    MONTH  year</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;int&gt;</span>
+<span class="co">#&gt;  1     1  2015</span>
+<span class="co">#&gt;  2     1  2015</span>
+<span class="co">#&gt;  3     1  2015</span>
+<span class="co">#&gt;  4     1  2015</span>
+<span class="co">#&gt;  5     1  2015</span>
+<span class="co">#&gt;  6     1  2015</span>
+<span class="co">#&gt;  7     1  2015</span>
+<span class="co">#&gt;  8     1  2015</span>
+<span class="co">#&gt;  9     1  2015</span>
+<span class="co">#&gt; 10     1  2015</span>
+<span class="co">#&gt; # … with 32,156 more rows</span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li><code>fars_summaize_years</code> returns tibble with counts for each month in the specified years</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(x &lt;-<span class="st"> </span><span class="kw">fars_summarize_years</span>(<span class="dv">2013</span><span class="op">:</span><span class="dv">2015</span>))
+<span class="co">#&gt; # A tibble: 12 x 4</span>
+<span class="co">#&gt;    MONTH `2013` `2014` `2015`</span>
+<span class="co">#&gt;    &lt;dbl&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;</span>
+<span class="co">#&gt;  1     1   2230   2168   2368</span>
+<span class="co">#&gt;  2     2   1952   1893   1968</span>
+<span class="co">#&gt;  3     3   2356   2245   2385</span>
+<span class="co">#&gt;  4     4   2300   2308   2430</span>
+<span class="co">#&gt;  5     5   2532   2596   2847</span>
+<span class="co">#&gt;  6     6   2692   2583   2765</span>
+<span class="co">#&gt;  7     7   2660   2696   2998</span>
+<span class="co">#&gt;  8     8   2899   2800   3016</span>
+<span class="co">#&gt;  9     9   2741   2618   2865</span>
+<span class="co">#&gt; 10    10   2768   2831   3019</span>
+<span class="co">#&gt; 11    11   2615   2714   2724</span>
+<span class="co">#&gt; 12    12   2457   2604   2781</span></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li><code>fars_map_state</code> can be used for plotting the geographical coordinates of fatal injuries within a year for the specified state.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fars_map_state</span>(<span class="dv">1</span>, <span class="dv">2013</span>)</code></pre></div>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
